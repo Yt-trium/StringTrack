@@ -9,7 +9,7 @@
 #include <errno.h>
 #include <unistd.h>
 
-#define SIZEBUF 32
+#define SIZEBUF 32000
 
 /* Fonction voidStringTrack
  * 

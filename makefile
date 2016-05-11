@@ -18,6 +18,10 @@ clean : clear
 
 test : all
 	./StringTrack test_file test_str
+
+perf : all
+	eval time ./StringTrack test_file_big test_str
+	
 	
 val : all
 	valgrind ./StringTrack test_file test_str
