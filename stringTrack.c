@@ -14,6 +14,9 @@ void voidStringTrack(char *fileName, char *string)
 	struct stat fileST; 			// stat structure for file stat
 	long int fileSize = 0;			// Length of file
 	long int readSize = 0;			// Readed byte
+	long int numberOfPack = 0;		// Number of SIZEBUF buffer to read
+	long int j = 0;					// counter for the read loop
+	long int tmp_var_1 = 0;			// Variable temporaire 1
 	
 	stringLen = strlen(string);
 	
@@ -27,15 +30,30 @@ void voidStringTrack(char *fileName, char *string)
 	
 	if (stat(fileName, &fileST) == 0)
         fileSize = fileST.st_size;
+    
+	numberOfPack = fileSize / SIZEBUF;
 	
+	if(numberOfPack == 0)
+		numberOfPack = 1;
 	
 	while((readedChar = read(file, buffer, SIZEBUF)) > 0)
 	{
-		// NEED TO LIMIT OUTPUT TO 10
-		if(1)	// TODO		
-			printf("%ld / %ld\n", readSize, fileSize);
+		readSize += readedChar;
+		j++;
 		
-		readSize += SIZEBUF;
+		/*
+		 * - NEED TO LIMIT OUTPUT TO 10 -
+		 * 
+		 * Si j'ai 50 ou 700 packet a afficher et que je souhaite en afficher uniquement 10 
+		 * j*10 / numberOfPack > 0,1,2,3,4,5,6,7,8,9,10
+		 * j*100000 / numberOfPack
+		 * printf("- %ld\n", (j*10/numberOfPack));
+		 */
+		
+		if(numberOfPack < 10)
+			printf("%ld / %ld\n", readSize, fileSize);
+		else if((j*10/numberOfPack) == tmp_var_1 && tmp_var_1++)
+			printf("%ld / %ld  \t- %ld\%\n", readSize, fileSize, (tmp_var_1-1)*10);
 		
 		for(i=0;i<readedChar;i++)	// For each character
 		{

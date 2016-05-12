@@ -1,6 +1,7 @@
 StringTrack
 test_file
 test_file_big
+test_file_mid
 
 # Object files
 *.o
